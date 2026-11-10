@@ -3,6 +3,19 @@ import {GuildEventWindow, GuildOverviewWindow, GuildAdminWindow} from "./scripts
 
 const runtime = new GuildRuntime();
 runtime.attachUI(GuildEventWindow, GuildOverviewWindow, GuildAdminWindow);
+GuildAdminWindow.runtime = runtime;
+
+// Register the menu before Foundry renders Configure Settings.
+Hooks.once("init", () => {
+  game.settings.registerMenu("guild-quest-tracker", "jsonImportExport", {
+    name:"Экспорт и импорт JSON",
+    label:"Экспорт и импорт JSON",
+    hint:"Импорт библиотеки, экспорт прогресса, перезапуск и очистка данных гильдии.",
+    icon:"fa-solid fa-file-arrow-down",
+    type:GuildAdminWindow,
+    restricted:true
+  });
+});
 
 // Foundry v14 scene toolbar. Available to players and GMs, without modifying RPG sheets.
 Hooks.on("getSceneControlButtons", controls => {

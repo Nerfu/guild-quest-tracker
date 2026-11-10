@@ -1,5 +1,5 @@
 <section class="gqt-panel gqt-admin-panel">
-  <h2>Данные гильдии</h2>
+  <h2>Экспорт и импорт JSON</h2>
   <p class="gqt-hint">Код модуля обновляется отдельно от JSON-библиотеки. Все операции работают только с данными гильдии в текущем мире Foundry.</p>
   {{#unless isPrimaryGM}}
     <p>Управление доступно основному активному ведущему.</p>
@@ -7,12 +7,12 @@
     <div class="gqt-admin-item">
       <strong>Импорт JSON</strong>
       <p>Выберите локальный JSON-файл. При наличии кампании после проверки файла будет предложено заменить её новым содержимым.</p>
-      <button type="button" data-action="import">Импорт — выбрать новый JSON</button>
+      <button type="button" data-action="import">Импорт JSON</button>
     </div>
     <div class="gqt-admin-item">
-      <strong>Сохранить прогресс в файл</strong>
+      <strong>Экспорт JSON</strong>
       <p>Сохраняет факты, действующие события и историю. Файл содержит скрытые сведения ведущего, храните его отдельно.</p>
-      <button type="button" data-action="export" {{#unless hasCampaign}}disabled{{/unless}}>Сохранить прогресс в файл</button>
+      <button type="button" data-action="export" {{#unless hasCampaign}}disabled{{/unless}}>Экспорт JSON</button>
     </div>
     <div class="gqt-admin-item">
       <strong>Запустить гильдию заново</strong>

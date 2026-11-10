@@ -1,10 +1,15 @@
 name: Release Foundry module
 on:
   push:
-    tags:
-      - 'v*'
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
 permissions:
   contents: write
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -15,13 +20,31 @@ jobs:
           node-version: '22'
       - name: Test
         run: node --test tests/*.test.mjs
+      - name: Determine release version
+        shell: bash
+        run: |
+          echo "GQT_RELEASE_TAG=v$(node -p "require('./module.json').version")" >> "$GITHUB_ENV"
+      - name: Check tag consistency
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/* && "${GITHUB_REF#refs/tags/}" != "$GQT_RELEASE_TAG" ]]; then
+            echo "Tag ${GITHUB_REF#refs/tags/} does not match $GQT_RELEASE_TAG" >&2
+            exit 1
+          fi
       - name: Build code-only release
         run: |
           node .github/scripts/prepare-release.mjs
           cd dist
           zip -q -r guild-quest-tracker.zip guild-quest-tracker
-      - name: Publish GitHub Release
+      - name: Publish release for new versions
+        if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
-          gh release create "$GITHUB_REF_NAME" dist/module.json dist/guild-quest-tracker.zip --title "$GITHUB_REF_NAME" --generate-notes
+          if gh release view "$GQT_RELEASE_TAG" >/dev/null 2>&1; then
+            echo "Release $GQT_RELEASE_TAG already exists; not overwriting published assets."
+          else
+            gh release create "$GQT_RELEASE_TAG" dist/module.json dist/guild-quest-tracker.zip \
+              --target "$GITHUB_SHA" --title "$GQT_RELEASE_TAG" --generate-notes
+          fi

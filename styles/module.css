@@ -19,3 +19,7 @@
 .gqt-app .gqt-admin-item {display:flex; flex-direction:column; gap:.4rem; padding:.7rem; border:1px solid var(--color-border-light-primary,#777); border-radius:6px;}
 .gqt-app .gqt-admin-item p {margin:0; font-size:.87rem; opacity:.8;}
 .gqt-app .gqt-danger {border-color:#9d5757;}
+
+/* Visible action bar inside native Foundry v14 Journal Entry sheets. */
+.gqt-journal-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.6rem; margin-bottom: 0.5rem; background: var(--color-cool-5, #252936); border: 1px solid var(--color-border-light-primary, #777); border-radius: 4px; }
+.gqt-journal-actions button { width: auto; flex: 1 1 10rem; cursor: pointer; }

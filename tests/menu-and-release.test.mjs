@@ -24,3 +24,10 @@ test("release also triggers on main branch and supports manual runs", () => {
   assert.match(workflow,/pull_request:/);
   assert.match(workflow,/if: github.event_name != 'pull_request'/);
 });
+
+test("version 0.1.4 offers events through settings and on Notes toolbar", () => {
+  const source = read("../main.mjs");
+  assert.match(source,/registerMenu\("guild-quest-tracker", "events"/);
+  assert.match(source,/controls\.notes \?\? controls\.tokens/);
+  assert.match(source,/attachJournalEventControls/);
+});

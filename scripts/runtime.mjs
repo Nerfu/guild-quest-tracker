@@ -242,7 +242,8 @@ export class GuildRuntime {
       await this.syncProjections(campaign);
       if (canvas?.scene) await this.ensureSceneNotes(canvas.scene,campaign.events.filter(e => e.visibility !== "gm"));
       this.refresh();
-      ui.notifications.info(restored ? "Прогресс восстановлен из локального JSON-файла." : `Импортировано событий: ${campaign.events.length}. Исходный JSON остаётся на вашем компьютере.`);
+      if (this.OverviewWindowClass) this.openOverview();
+      ui.notifications.info(restored ? "Прогресс восстановлен. Открыт список событий." : `Импортировано событий: ${campaign.events.length}. Список событий открыт. Метки видны на слое «Заметки».`);
     } catch (err) {
       this.showError(err);
     } finally {
@@ -273,7 +274,7 @@ export class GuildRuntime {
       await this.ensureSceneNotes(scene,campaign.events.filter(e => e.visibility !== "gm"));
       await this.syncProjections(campaign);
       this.refresh();
-      ui.notifications.info("Отсутствующие метки событий добавлены на текущую сцену.");
+      ui.notifications.info("Метки проверены. Для отображения на карте включите слой «Заметки» и «Показывать заметки».");
     } catch (err) {
       this.showError(err);
     } finally {

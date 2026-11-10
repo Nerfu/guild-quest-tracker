@@ -51,7 +51,8 @@ export class GuildEventWindow extends HandlebarsApplicationMixin(ApplicationV2) 
 }
 
 export class GuildOverviewWindow extends HandlebarsApplicationMixin(ApplicationV2) {
-  constructor(runtime) {
+  static runtime = null;
+  constructor(runtime = GuildOverviewWindow.runtime) {
     super();
     this.runtime = runtime;
   }

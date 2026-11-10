@@ -1,0 +1,28 @@
+<section class="gqt-panel gqt-admin-panel">
+  <h2>Данные гильдии</h2>
+  <p class="gqt-hint">Код модуля обновляется отдельно от JSON-библиотеки. Все операции работают только с данными гильдии в текущем мире Foundry.</p>
+  {{#unless isPrimaryGM}}
+    <p>Управление доступно основному активному ведущему.</p>
+  {{else}}
+    <div class="gqt-admin-item">
+      <strong>Импорт JSON</strong>
+      <p>Выберите локальный JSON-файл. При наличии кампании после проверки файла будет предложено заменить её новым содержимым.</p>
+      <button type="button" data-action="import">Импорт — выбрать новый JSON</button>
+    </div>
+    <div class="gqt-admin-item">
+      <strong>Сохранить прогресс в файл</strong>
+      <p>Сохраняет факты, действующие события и историю. Файл содержит скрытые сведения ведущего, храните его отдельно.</p>
+      <button type="button" data-action="export" {{#unless hasCampaign}}disabled{{/unless}}>Сохранить прогресс в файл</button>
+    </div>
+    <div class="gqt-admin-item">
+      <strong>Запустить гильдию заново</strong>
+      <p>Возвращает события, факты и оба журнала к исходной импортированной библиотеке. Метки на карте остаются.</p>
+      <button type="button" data-action="restart" {{#unless canRestart}}disabled{{/unless}}>Запустить гильдию заново</button>
+    </div>
+    <div class="gqt-admin-item gqt-danger">
+      <strong>Очистить данные</strong>
+      <p>Удаляет служебные данные, журналы и метки гильдии на всех сценах. Не затрагивает документы других модулей.</p>
+      <button type="button" data-action="clear" {{#unless hasCampaign}}disabled{{/unless}}>Очистить данные</button>
+    </div>
+  {{/unless}}
+</section>

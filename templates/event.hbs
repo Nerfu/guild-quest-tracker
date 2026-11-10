@@ -1,0 +1,27 @@
+<section class="gqt-panel">
+  <header class="gqt-header">
+    <h2>{{title}}</h2>
+    {{#if resolved}}<span class="gqt-status">Событие завершено</span>{{/if}}
+  </header>
+  <p class="gqt-description">{{description}}</p>
+  {{#if isGM}}
+    <p class="gqt-hint">Ведущий: нажатие на вариант <strong>исполняет его сразу</strong>. Мнения игроков показаны под вариантами.</p>
+    {{#unless isPrimaryGM}}<p class="gqt-hint">Подтверждение выполняет только основной активный ведущий.</p>{{/unless}}
+  {{else}}
+    <p class="gqt-hint">Нажатие отмечает ваш выбор, но ничего не исполняет. Ведущий подтвердит результат.</p>
+  {{/if}}
+  <div class="gqt-actions">
+    {{#each actions}}
+      <button type="button" data-action="choose" data-choice-id="{{id}}" class="gqt-choice {{#if mine}}gqt-selected{{/if}}" {{#if ../resolved}}disabled{{/if}}>
+        <span class="gqt-choice-title">{{label}}</span>
+        {{#if names.length}}
+          <span class="gqt-voters">Выбрали: {{#each names}}<span class="gqt-person">{{this}}</span>{{/each}}</span>
+        {{/if}}
+      </button>
+    {{/each}}
+  </div>
+  <footer class="gqt-footer">
+    {{#unless isGM}}<button type="button" data-action="clear" {{#unless hasOwnChoice}}disabled{{/unless}}>Очистить свой выбор</button>{{/unless}}
+    <button type="button" data-action="overview">К списку событий</button>
+  </footer>
+</section>

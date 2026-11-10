@@ -1,0 +1,28 @@
+<section class="gqt-panel">
+  <h2>Доступные события</h2>
+  {{#unless isSetUp}}
+    <p class="gqt-hint">Библиотека не импортирована. Ведущий выбирает отдельный JSON-файл с компьютера.</p>
+  {{/unless}}
+  <div class="gqt-event-list">
+    {{#each events}}
+      <div class="gqt-item">
+        <div class="gqt-item-text">
+          <strong>{{title}}</strong>
+          {{#if resolved}}<small>Завершено</small>{{else}}<small>Активно · выборов: {{selectedCount}}</small>{{/if}}
+        </div>
+        <button type="button" data-action="open" data-event-id="{{id}}">Открыть</button>
+      </div>
+    {{/each}}
+  </div>
+  {{#if isGM}}
+    <p class="gqt-hint">Отчёт о выборах отправляется шёпотом ведущим. Он не исполняет события.</p>
+    <button type="button" data-action="report">Выдать отчёт о выборах в чат</button>
+    {{#if isPrimaryGM}}
+      <button type="button" data-action="manage">Управление данными гильдии</button>
+      <button type="button" data-action="import">Первоначальный импорт JSON</button>
+      <button type="button" data-action="notes">Разместить метки на сцене</button>
+    {{/if}}
+  {{else}}
+    <button type="button" data-action="clear" {{#unless hasOwnChoice}}disabled{{/unless}}>Очистить свой выбор</button>
+  {{/if}}
+</section>

@@ -1,0 +1,29 @@
+{
+  "id": "guild-quest-tracker",
+  "title": "Гильдия заданий — прототип событий",
+  "description": "Прототип Foundry 14: события на карте, выборы игроков, управление локальными JSON-библиотеками и сохранением прогресса, два журнала.",
+  "version": "0.1.2",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14"
+  },
+  "esmodules": [
+    "main.mjs"
+  ],
+  "languages": [
+    {
+      "lang": "ru",
+      "name": "Русский",
+      "path": "lang/ru.json"
+    },
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "socket": true,
+  "styles": [
+    "styles/module.css"
+  ]
+}

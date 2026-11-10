@@ -1,0 +1,27 @@
+name: Release Foundry module
+on:
+  push:
+    tags:
+      - 'v*'
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test
+        run: node --test tests/*.test.mjs
+      - name: Build code-only release
+        run: |
+          node .github/scripts/prepare-release.mjs
+          cd dist
+          zip -q -r guild-quest-tracker.zip guild-quest-tracker
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/module.json dist/guild-quest-tracker.zip --title "$GITHUB_REF_NAME" --generate-notes

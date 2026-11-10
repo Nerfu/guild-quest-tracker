@@ -1,12 +1,22 @@
 import {GuildRuntime} from "./scripts/runtime.mjs";
 import {GuildEventWindow, GuildOverviewWindow, GuildAdminWindow} from "./scripts/ui.mjs";
+import {attachJournalEventControls} from "./scripts/journal-controls.mjs";
 
 const runtime = new GuildRuntime();
 runtime.attachUI(GuildEventWindow, GuildOverviewWindow, GuildAdminWindow);
 GuildAdminWindow.runtime = runtime;
+GuildOverviewWindow.runtime = runtime;
 
 // Register the menu before Foundry renders Configure Settings.
 Hooks.once("init", () => {
+  game.settings.registerMenu("guild-quest-tracker", "events", {
+    name:"События и задания",
+    label:"Открыть список событий",
+    hint:"Просмотр доступных заданий и выбор действий; игроки могут открывать события самостоятельно.",
+    icon:"fa-solid fa-book-open",
+    type:GuildOverviewWindow,
+    restricted:false
+  });
   game.settings.registerMenu("guild-quest-tracker", "jsonImportExport", {
     name:"Экспорт и импорт JSON",
     label:"Экспорт и импорт JSON",
@@ -19,7 +29,8 @@ Hooks.once("init", () => {
 
 // Foundry v14 scene toolbar. Available to players and GMs, without modifying RPG sheets.
 Hooks.on("getSceneControlButtons", controls => {
-  const host = controls.tokens ?? controls.notes;
+  // These tools belong next to Foundry's map notes, not hidden in Token tools.
+  const host = controls.notes ?? controls.tokens;
   if (!host?.tools) return;
   const order = Object.keys(host.tools).length;
   host.tools.gqtOverview = {
@@ -40,6 +51,11 @@ Hooks.on("getSceneControlButtons", controls => {
       order:order+4,button:true,visible:true,onChange:() => runtime.reportSelections()
     };
   }
+});
+
+// Give module-created journal entries a direct, visible entry point into the event UI.
+Hooks.on("renderApplicationV2", app => {
+  attachJournalEventControls(app, runtime);
 });
 
 // Intercept only our own journal-linked map notes. Other notes behave normally.

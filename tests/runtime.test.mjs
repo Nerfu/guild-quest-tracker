@@ -75,6 +75,7 @@ test("GM imports a local JSON file, creates map notes and separate journals; rei
   assert.equal(runtime.findEntry("gm-log").ownership.default,0);
   assert.equal(runtime.findEntry("player-log").ownership.default,2);
   assert.equal(runtime.allPublicEvents.length,2);
+  assert.ok(!env.notifications.some(n=>n.includes("TypeError") || n.includes("not a constructor")));
   await runtime.importLocalLibrary(localFile());
   assert.equal(env.entries.length,5);
   assert.equal(env.notes.length,2);

@@ -108,7 +108,7 @@ export class GuildAdminWindow extends HandlebarsApplicationMixin(ApplicationV2) 
   static DEFAULT_OPTIONS = {
     id:"gqt-admin-window",
     classes:["gqt-app"],
-    window:{title:"Гильдия заданий — управление данными",resizable:true},
+    window:{title:"Гильдия заданий — экспорт и импорт JSON",resizable:true},
     position:{width:540},
     actions:{
       import:GuildAdminWindow.onImport,
